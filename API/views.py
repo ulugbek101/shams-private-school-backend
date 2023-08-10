@@ -60,3 +60,4 @@ class GroupViewSet(viewsets.ModelViewSet):
 class PupilViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PupilSerializer
     queryset = models.Pupil.objects.all()
+    permission_classes = [permissions.IsSuperuserOrReadOnly]

@@ -105,6 +105,3 @@ class Pupil(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
-    @property
-    def teacher(self):
-        return self.group.teacher.get_full_name()
