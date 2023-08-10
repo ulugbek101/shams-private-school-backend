@@ -44,9 +44,13 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         teacher = self.request.query_params.get('teacher')
+        name = self.request.query_params.get('name')
 
         if teacher:
             self.queryset = self.queryset.filter(teacher__id=teacher)
+
+        if name:
+            self.queryset = self.queryset.filter(name__icontains=name)
 
         serializer = self.serializer_class(self.queryset, many=True)
 
