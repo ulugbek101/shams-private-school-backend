@@ -12,6 +12,7 @@ router.register('subjects', views.SubjectViewSet)
 router.register('users', views.UserViewSet)
 router.register('groups', views.GroupViewSet)
 router.register('pupils', views.PupilViewSet)
+router.register('payments', views.PaymentViewSet)
 
 urlpatterns = [
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

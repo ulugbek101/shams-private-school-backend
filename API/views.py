@@ -61,3 +61,8 @@ class PupilViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PupilSerializer
     queryset = models.Pupil.objects.all()
     permission_classes = [permissions.IsSuperuserOrReadOnly]
+
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.PaymentSerializer
+    queryset = models.Payment.objects.all()

@@ -1,7 +1,7 @@
 import uuid
 
-from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.db import models
 
 
 class UserManager(BaseUserManager):
@@ -59,6 +59,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_username(self):
         return self.email
 
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
 
@@ -107,16 +111,16 @@ class Pupil(models.Model):
 
 
 class Payment(models.Model):
-    pupil = models.ForeignKey(to=Pupil, on_delete=models.SET_NULL, null=True)
-    group = models.ForeignKey(to=Group, on_delete=models.SET_NULL, null=True)
+    pupil = models.ForeignKey(to=Pupil, on_delete=models.SET_DEFAULT, default='')
+    group = models.ForeignKey(to=Group, on_delete=models.SET_DEFAULT, default='')
     first_name = models.CharField(max_length=200, null=True, blank=True)
     last_name = models.CharField(max_length=200, null=True, blank=True)
     group_name = models.CharField(max_length=200, null=True, blank=True)
     amount = models.BigIntegerField()
-    month = models.DateField()
+    date = models.DateField()
     id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} - {self.amount} - {self.group_name} - {self.month}'
+        return f'{self.first_name} {self.last_name} - {self.amount} - {self.group_name} - {self.date}'
