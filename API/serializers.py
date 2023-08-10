@@ -70,7 +70,7 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Payment
-        fields = ['pupil', 'group', 'first_name', 'last_name', 'group_name', 'amount', 'date']
+        fields = ['id', 'created', 'updated', 'pupil', 'group', 'first_name', 'last_name', 'group_name', 'amount', 'date']
 
     def create(self, validated_data):
         new_amount = validated_data.get('amount')

@@ -1,11 +1,12 @@
 from django.db.models import Q
+from rest_framework import status
 from rest_framework import viewsets
-from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from . import serializers
 from . import models
 from . import permissions
+from . import serializers
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -66,3 +67,56 @@ class PupilViewSet(viewsets.ModelViewSet):
 class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PaymentSerializer
     queryset = models.Payment.objects.all()
+    permission_classes = [permissions.IsSuperuser]
+
+    def list(self, request, *args, **kwargs):
+        group_id = self.request.query_params.get('group_id')
+        pupil_id = self.request.query_params.get('pupil_id')
+        date = self.request.query_params.get('date')
+
+        if date and len(date.split('-')[0]) != 4:
+            return Response(data={'detail': 'Date is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if group_id:
+            self.queryset = self.queryset.filter(group__id=group_id)
+
+        if pupil_id:
+            self.queryset = self.queryset.filter(pupil__id=pupil_id)
+
+        if date:
+            try:
+                if len(date.split('-')) == 3:
+                    self.queryset = self.queryset.filter(date=date)
+                elif len(date.split('-')) == 2:
+                    self.queryset = self.queryset.filter(date__year=date.split('-')[0], date__month=date.split('-')[1])
+                elif len(date.split('-')) == 1:
+                    self.queryset = self.queryset.filter(date__year=date.split('-')[0])
+                else:
+                    return Response(data={'detail': 'Date is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+            except:
+                return Response(data={'detail': 'Date is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.serializer_class(self.queryset, many=True)
+
+        return Response(serializer.data)
+
+    # def retrieve(self, request, *args, **kwargs):
+    #     group_id = self.request.query_params.get('group_id')
+    #     pupil_id = self.request.query_params.get('pupil_id')
+    #     date = self.request.query_params.get('date')
+    #
+    #     if date and len(date.split('-')[0]) != 4:
+    #         return Response(data={'detail': 'Date is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+    #
+    #     if group_id:
+    #         self.queryset = self.queryset.filter(group__id=group_id)
+    #
+    #     if pupil_id:
+    #         self.queryset = self.queryset.filter(pupil__id=pupil_id)
+    #
+    #     if date:
+    #         self.queryset = self.queryset.filter(date__year=date.split('-')[1], date__month=date.split('-')[0])
+    #
+    #     serializer = self.serializer_class(self.get_object(), many=False)
+    #
+    #     return Response(serializer.data)
