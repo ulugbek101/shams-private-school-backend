@@ -55,3 +55,9 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Group
         fields = '__all__'
+
+
+class PupilSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Pupil
+        fields = '__all__'

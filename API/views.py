@@ -55,3 +55,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(self.queryset, many=True)
 
         return Response(serializer.data)
+
+
+class PupilViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.PupilSerializer
+    queryset = models.Pupil.objects.all()
