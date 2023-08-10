@@ -1,5 +1,7 @@
+from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.response import Response
 
 from . import serializers
 from . import models
@@ -20,3 +22,16 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
     queryset = models.User.objects.all()
     permission_classes = [permissions.IsSuperuserOrReadOnly]
+
+    def list(self, request, *args, **kwargs):
+        name = self.request.query_params.get('name')
+
+        if name:
+            self.queryset = self.queryset.filter(
+                Q(first_name__icontains=name) |
+                Q(last_name__icontains=name)
+            )
+
+        serializer = self.serializer_class(self.queryset, many=True)
+
+        return Response(serializer.data)
