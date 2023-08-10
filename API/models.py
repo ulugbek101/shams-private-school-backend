@@ -69,3 +69,16 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Group(models.Model):
+    subject = models.ForeignKey(to=Subject, on_delete=models.PROTECT)
+    teacher = models.ForeignKey(to=User, on_delete=models.PROTECT)
+    name = models.CharField(max_length=200, unique=True)
+    payment_amount = models.BigIntegerField(default=0)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.name} - {self.subject.name} - {self.teacher.get_full_name()}'

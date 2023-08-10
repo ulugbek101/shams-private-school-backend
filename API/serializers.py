@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['id', 'first_name', 'last_name', 'email', 'password']
 
     def create(self, validated_data):
         first_name = validated_data.get('first_name')
@@ -49,3 +49,9 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Group
+        fields = '__all__'

@@ -35,3 +35,19 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(self.queryset, many=True)
 
         return Response(serializer.data)
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.GroupSerializer
+    queryset = models.Group.objects.all()
+    permission_classes = [permissions.IsSuperuserOrIsOwner]
+
+    def list(self, request, *args, **kwargs):
+        teacher = self.request.query_params.get('teacher')
+
+        if teacher:
+            self.queryset = self.queryset.filter(teacher__id=teacher)
+
+        serializer = self.serializer_class(self.queryset, many=True)
+
+        return Response(serializer.data)
