@@ -142,6 +142,15 @@ CORS_ALLOW_ALL_ORIGINS = env.bool('CORS_ALLOW_ALL_ORIGINS', True)
 
 # CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', [])
 
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
 CORS_ALLOW_METHODS = (
     "DELETE",
     "GET",
