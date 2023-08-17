@@ -16,13 +16,13 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.SubjectSerializer
     queryset = models.Subject.objects.all()
-    permission_classes = [permissions.IsSuperuserOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsSuperuserOrReadOnly]
 
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
     queryset = models.User.objects.all()
-    permission_classes = [permissions.IsSuperuserOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsSuperuserOrReadOnly]
 
     def list(self, request, *args, **kwargs):
         name = self.request.query_params.get('name')
@@ -41,7 +41,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.GroupSerializer
     queryset = models.Group.objects.all()
-    permission_classes = [permissions.IsSuperuserOrIsOwner]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsSuperuserOrIsOwner]
 
     def list(self, request, *args, **kwargs):
         teacher = self.request.query_params.get('teacher')
@@ -61,13 +61,13 @@ class GroupViewSet(viewsets.ModelViewSet):
 class PupilViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PupilSerializer
     queryset = models.Pupil.objects.all()
-    permission_classes = [permissions.IsSuperuserOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsSuperuserOrReadOnly]
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PaymentSerializer
     queryset = models.Payment.objects.all()
-    permission_classes = [permissions.IsSuperuser]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsSuperuser]
 
     def list(self, request, *args, **kwargs):
         group_id = self.request.query_params.get('group_id')
