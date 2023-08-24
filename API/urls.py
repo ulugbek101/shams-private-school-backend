@@ -8,11 +8,11 @@ from . import views
 from . import views
 
 router = DefaultRouter()
-router.register('subjects', views.SubjectViewSet)
-router.register('users', views.UserViewSet)
-router.register('groups', views.GroupViewSet)
-router.register('pupils', views.PupilViewSet)
-router.register('payments', views.PaymentViewSet)
+router.register('subjects', views.SubjectViewSet, basename="Subject")
+router.register('users', views.UserViewSet, basename="User")
+router.register('groups', views.GroupViewSet, basename="Group")
+router.register('pupils', views.PupilViewSet, "Pupil")
+router.register('payments', views.PaymentViewSet, basename="Payment")
 
 urlpatterns = [
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
