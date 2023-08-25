@@ -24,7 +24,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
-    permission_classes = [permissions.IsAuthenticated, permissions.IsSuperuserOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsProfileOwnerOrReadOnly]
 
     def get_queryset(self):
         return get_user_model().objects.all()
