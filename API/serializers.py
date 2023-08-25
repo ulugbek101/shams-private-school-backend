@@ -1,8 +1,11 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
 from . import models
+
+Users = get_user_model()
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -40,7 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
         email = validated_data.get('email')
         password = validated_data.get('password')
 
-        user = models.User.objects.create_user(
+        user = get_user_model().objects.create_user(
             first_name=first_name,
             last_name=last_name,
             email=email,
@@ -49,6 +52,16 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+    def update(self, instance, validated_data):
+        if validated_data.get('password'):
+            password = validated_data.pop('password')
+            instance.set_password(password)
+            instance.save()
+
+            return super().update(instance, validated_data)
+
+        return super().update(instance, validated_data)
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -70,7 +83,8 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Payment
-        fields = ['id', 'created', 'updated', 'pupil', 'group', 'first_name', 'last_name', 'group_name', 'amount', 'date']
+        fields = ['id', 'created', 'updated', 'pupil', 'group', 'first_name', 'last_name', 'group_name', 'amount',
+                  'date']
 
     def create(self, validated_data):
         new_amount = validated_data.get('amount')
