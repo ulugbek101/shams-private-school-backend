@@ -114,24 +114,3 @@ class PaymentViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(queryset, many=True)
 
         return Response(serializer.data)
-
-    # def retrieve(self, request, *args, **kwargs):
-    #     group_id = self.request.query_params.get('group_id')
-    #     pupil_id = self.request.query_params.get('pupil_id')
-    #     date = self.request.query_params.get('date')
-    #
-    #     if date and len(date.split('-')[0]) != 4:
-    #         return Response(data={'detail': 'Date is invalid'}, status=status.HTTP_400_BAD_REQUEST)
-    #
-    #     if group_id:
-    #         self.queryset = self.queryset.filter(group__id=group_id)
-    #
-    #     if pupil_id:
-    #         self.queryset = self.queryset.filter(pupil__id=pupil_id)
-    #
-    #     if date:
-    #         self.queryset = self.queryset.filter(date__year=date.split('-')[1], date__month=date.split('-')[0])
-    #
-    #     serializer = self.serializer_class(self.get_object(), many=False)
-    #
-    #     return Response(serializer.data)
