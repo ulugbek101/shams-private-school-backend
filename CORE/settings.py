@@ -78,19 +78,19 @@ WSGI_APPLICATION = 'CORE.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-
     # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': env.str('PGDATABASE'),
-    #     'USER': env.str('PGUSER'),
-    #     'PASSWORD': env.str('PGPASSWORD'),
-    #     'HOST': env.str('PGHOST'),
-    #     'PORT': env.int('PGPORT'),
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env.str('PGDATABASE'),
+        'USER': env.str('PGUSER'),
+        'PASSWORD': env.str('PGPASSWORD'),
+        'HOST': env.str('PGHOST'),
+        'PORT': env.int('PGPORT'),
+    }
 
 }
 
